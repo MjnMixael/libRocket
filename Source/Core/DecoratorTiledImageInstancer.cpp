@@ -37,6 +37,8 @@ DecoratorTiledImageInstancer::DecoratorTiledImageInstancer()
 	RegisterTileProperty("image", false);
 	RegisterProperty("image-repeat", "stretch")
 		.AddParser("keyword", "stretch, clamp-stretch, clamp-truncate, repeat-stretch, repeat-truncate");
+	RegisterProperty("image-fit", "fill")
+		.AddParser("keyword", "fill, contain");
 }
 
 DecoratorTiledImageInstancer::~DecoratorTiledImageInstancer()
@@ -58,8 +60,10 @@ Decorator* DecoratorTiledImageInstancer::InstanceDecorator(const String& ROCKET_
 	if (repeat_property != NULL)
 		tile.repeat_mode = (DecoratorTiled::TileRepeatMode) repeat_property->value.Get< int >();
 
+	DecoratorTiledImage::SizingMode sizing_mode = (DecoratorTiledImage::SizingMode) properties.GetProperty("image-fit")->value.Get< int >();
+
 	DecoratorTiledImage* decorator = new DecoratorTiledImage();
-	if (decorator->Initialise(tile, texture_name, rcss_path))
+	if (decorator->Initialise(tile, texture_name, rcss_path, sizing_mode))
 		return decorator;
 
 	decorator->RemoveReference();
