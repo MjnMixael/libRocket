@@ -35,6 +35,8 @@ namespace Core {
 DecoratorTiledImageInstancer::DecoratorTiledImageInstancer()
 {
 	RegisterTileProperty("image", false);
+	RegisterProperty("image-repeat", "stretch")
+		.AddParser("keyword", "stretch, clamp-stretch, clamp-truncate, repeat-stretch, repeat-truncate");
 }
 
 DecoratorTiledImageInstancer::~DecoratorTiledImageInstancer()
@@ -51,6 +53,10 @@ Decorator* DecoratorTiledImageInstancer::InstanceDecorator(const String& ROCKET_
 	String rcss_path;
 
 	GetTileProperties(tile, texture_name, rcss_path, properties, "image");
+
+	const Property* repeat_property = properties.GetProperty("image-repeat");
+	if (repeat_property != NULL)
+		tile.repeat_mode = (DecoratorTiled::TileRepeatMode) repeat_property->value.Get< int >();
 
 	DecoratorTiledImage* decorator = new DecoratorTiledImage();
 	if (decorator->Initialise(tile, texture_name, rcss_path))
