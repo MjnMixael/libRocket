@@ -61,6 +61,8 @@ int ElementSetClass(lua_State* L, Element* obj);
 
 //getters
 int ElementGetAttrattributes(lua_State* L);
+int ElementGetAttrabsolute_left(lua_State* L);
+int ElementGetAttrabsolute_top(lua_State* L);
 int ElementGetAttrchild_nodes(lua_State* L);
 int ElementGetAttrclass_name(lua_State* L);
 int ElementGetAttrclient_left(lua_State* L);
