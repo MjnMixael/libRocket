@@ -50,8 +50,9 @@ public:
 	/// @return True if the image loaded (or are pending loading) and are of compatible sizes, false otherwise.
 	enum SizingMode
 	{
-		FILL = 0,
-		CONTAIN
+		STRETCH = 0,
+		CONTAIN,
+		FILL
 	};
 
 	bool Initialise(const Tile& tiles, const String& texture_names, const String& rcss_path, SizingMode sizing_mode);

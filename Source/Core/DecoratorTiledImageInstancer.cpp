@@ -35,8 +35,8 @@ namespace Core {
 DecoratorTiledImageInstancer::DecoratorTiledImageInstancer()
 {
 	RegisterTileProperty("image", false);
-	RegisterProperty("image-fit", "fill")
-		.AddParser("keyword", "fill, contain");
+	RegisterProperty("image-fit", "stretch")
+		.AddParser("keyword", "stretch, contain, fill");
 }
 
 DecoratorTiledImageInstancer::~DecoratorTiledImageInstancer()
