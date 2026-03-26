@@ -118,6 +118,16 @@ bool Initialise()
 
 void Shutdown()
 {
+	// Unload all documents in every active context before notifying plugins of
+	// shutdown.  The debugger plugin checks for leaked elements in OnShutdown();
+	// without this step every element that is still alive inside a context
+	// document would be falsely reported as a leak.
+	for (ContextMap::iterator itr = contexts.begin(); itr != contexts.end(); ++itr)
+	{
+		itr->second->UnloadAllDocuments();
+		itr->second->Update();
+	}
+
 	// Notify all plugins we're being shutdown.
 	PluginRegistry::NotifyShutdown();
 
