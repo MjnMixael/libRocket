@@ -89,7 +89,9 @@ bool FontFaceLayer::Initialise(const Rocket::Core::FontFaceHandle* _handle, Font
 			Vector2i glyph_dimensions = glyph.dimensions; // size of char
 
 			Character character;
-			character.origin = Vector2f((float) (glyph.bearing.x), (float) (glyph.bearing.y) - handle->GetBaseline()*3 );
+			// bearing.y (YOffset) is distance from cell top to glyph top; subtract ascender (lineHeight - descent)
+			// to get offset from baseline, matching the position convention used by GenerateGeometry
+			character.origin = Vector2f((float) (glyph.bearing.x), (float) (glyph.bearing.y) - bm_font_face_handle->GetLineHeight() + bm_font_face_handle->GetBaseline());
 			character.dimensions = Vector2f((float) glyph.dimensions.x, (float) glyph.dimensions.y);
 
 			// Set the character's texture index.

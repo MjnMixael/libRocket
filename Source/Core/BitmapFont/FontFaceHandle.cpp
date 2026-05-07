@@ -88,9 +88,9 @@ bool FontFaceHandle::Initialise(BitmapFontDefinitions *bm_face, const String& _c
 		texture_source = bitmap_source.GetPathedFileName();
 	}
 
-	if (!UnicodeRange::BuildList(charset, raw_charset))
+	if (!UnicodeRange::BuildList(charset, _charset))
 	{
-		Log::Message(Log::LT_ERROR, "Invalid font charset '%s'.", raw_charset.CString());
+		Log::Message(Log::LT_ERROR, "Invalid font charset '%s'.", _charset.CString());
 		return false;
 	}
 
@@ -304,10 +304,11 @@ void FontFaceHandle::OnReferenceDeactivate()
 void FontFaceHandle::GenerateMetrics(BitmapFontDefinitions *bm_face)
 {
 	line_height = bm_face->CommonCharactersInfo.LineHeight;
-	baseline = bm_face->CommonCharactersInfo.BaseLine;
+	// baseline is the descent (pixels from baseline to bottom of line box), matching FreeType convention
+	baseline = line_height - bm_face->CommonCharactersInfo.BaseLine;
 
-	underline_position = (float)line_height - bm_face->CommonCharactersInfo.BaseLine;
-	baseline += int( underline_position / 1.6f );
+	// underline_position negative = below baseline, matching FreeType sign convention used by GenerateLine
+	underline_position = -(float)(line_height - bm_face->CommonCharactersInfo.BaseLine) * 0.5f;
 	underline_thickness = 1.0f;
 
 	average_advance = 0;
