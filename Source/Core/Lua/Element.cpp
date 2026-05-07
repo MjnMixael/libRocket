@@ -301,6 +301,22 @@ int ElementGetAttrattributes(lua_State* L)
     return 1;
 }
 
+int ElementGetAttrabsolute_left(lua_State* L)
+{
+    Element* ele = LuaType<Element>::check(L,1);
+    LUACHECKOBJ(ele);
+    lua_pushnumber(L, ele->GetAbsoluteLeft());
+    return 1;
+}
+
+int ElementGetAttrabsolute_top(lua_State* L)
+{
+    Element* ele = LuaType<Element>::check(L,1);
+    LUACHECKOBJ(ele);
+    lua_pushnumber(L, ele->GetAbsoluteTop());
+    return 1;
+}
+
 int ElementGetAttrchild_nodes(lua_State* L)
 {
     Element* ele = LuaType<Element>::check(L,1);
@@ -608,6 +624,8 @@ RegType<Element> ElementMethods[] =
 luaL_Reg ElementGetters[] =
 {
     LUAGETTER(Element,attributes)
+    LUAGETTER(Element,absolute_left)
+    LUAGETTER(Element,absolute_top)
     LUAGETTER(Element,child_nodes)
     LUAGETTER(Element,class_name)
     LUAGETTER(Element,client_left)
